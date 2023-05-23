@@ -1,5 +1,5 @@
 # Welcome to Algo-weaver
-Algo-weaver is a algorithmic trading platform written in Python.
+Algo-weaver is a algorithmic trading platform written in Python.  This code is licensed under
 
 ## Inputs
 ### Exchanges
