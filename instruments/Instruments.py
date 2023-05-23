@@ -1,0 +1,7 @@
+from instruments.Instrument_BTCUSDT import Instrument_BTCUSDT
+from instruments.Instrument_BCHUSDT import Instrument_BCHUSDT
+from instruments.Instrument_AUDUSDT import Instrument_AUDUSDT
+from instruments.Instrument_BTCAUD import Instrument_BTCAUD
+from instruments.Instrument_ETHBTC import Instrument_ETHBTC
+from instruments.Instrument_ETHUSDT import Instrument_ETHUSDT
+from instruments.Instrument_ETHAUD import *
