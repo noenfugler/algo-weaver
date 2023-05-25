@@ -5,7 +5,7 @@
 #    Algo-weaver is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 #    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 #    details.
-#    You should have received a copy of the GNU General Public License along with Alog-weaver. If not, see
+#    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
 
 from indicators.Indicator_class import Indicator
@@ -31,9 +31,9 @@ class Indicator_CCI(Indicator):
         data['cci_amp'] = 0.0
         data['cci_correlator'] = 1.0
         data['cci_period'] = 6.0
-        data['cci_period_aj'] = 60.0
-        data['cci_mode_aj_intermediate'] = 0.0
-        data['cci_mode_aj'] = 0.0
+        data['cc_period_aw'] = 60.0
+        data['cci_mode_aw_intermediate'] = 0.0
+        data['cci_mode_aw'] = 0.0
         for row_num in range(length, len(data)):
             Sx = 0.0
             Sy = 0.0
@@ -97,22 +97,22 @@ class Indicator_CCI(Indicator):
             data.at[row_num,'cci_angle_roc']=data.loc[row_num,'cci_angle']-data.loc[row_num-1,'cci_angle']
             if data.loc[row_num,'cci_angle_roc'] < -pi :
                 data.at[row_num, 'cci_angle_roc'] = data.loc[row_num, 'cci_angle_roc']+ 2*pi
-            data.at[row_num,'cci_period_aj']=2*pi/data.loc[row_num, 'cci_angle_roc']
-            if isinf(data.at[row_num,'cci_period_aj']) or data.at[row_num,'cci_period_aj']> 40:
+            data.at[row_num,'cc_period_aw']=2*pi/data.loc[row_num, 'cci_angle_roc']
+            if isinf(data.at[row_num,'cc_period_aw']) or data.at[row_num,'cc_period_aw']> 40:
                 #trend mode
                 if data.at[row_num,'cci_imag'] > data.at[row_num,'cci_real']:
-                    data.at[row_num, 'cci_mode_aj_intermediate']=-1
+                    data.at[row_num, 'cci_mode_aw_intermediate']=-1
                 else:
-                    data.at[row_num, 'cci_mode_aj_intermediate']=1
+                    data.at[row_num, 'cci_mode_aw_intermediate']=1
             else:
                 #cycle mode
-                data.at[row_num, 'cci_mode_aj_intermediate'] = 0
-            # data.at[row_num, 'cci_mode_aj']=data.loc[row_num, 'cci_mode_aj_intermediate']
-            data.at[row_num, 'cci_mode_aj']=(data.loc[row_num, 'cci_mode_aj_intermediate']+data.loc[row_num-1, 'cci_mode_aj_intermediate'])/2
-            if data.loc[row_num, 'cci_mode_aj']<1 and data.loc[row_num, 'cci_mode_aj']>-1:
-                data.at[row_num, 'cci_mode_aj']=0
+                data.at[row_num, 'cci_mode_aw_intermediate'] = 0
+            # data.at[row_num, 'cci_mode_aw']=data.loc[row_num, 'cci_mode_aw_intermediate']
+            data.at[row_num, 'cci_mode_aw']=(data.loc[row_num, 'cci_mode_aw_intermediate']+data.loc[row_num-1, 'cci_mode_aw_intermediate'])/2
+            if data.loc[row_num, 'cci_mode_aw']<1 and data.loc[row_num, 'cci_mode_aw']>-1:
+                data.at[row_num, 'cci_mode_aw']=0
 
             # else:
-            #     data.at[row_num, 'cci_mode_aj'] = data.loc[row_num-1, 'cci_mode_aj_intermediate']
+            #     data.at[row_num, 'cci_mode_aw'] = data.loc[row_num-1, 'cci_mode_aw_intermediate']
         data['cci_gap']=data['cci_real']-data['cci_imag']
 

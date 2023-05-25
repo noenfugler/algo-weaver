@@ -5,7 +5,7 @@
 #    Algo-weaver is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 #    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 #    details.
-#    You should have received a copy of the GNU General Public License along with Alog-weaver. If not, see
+#    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
 
 from strategies.Strategy_class import Strategy
@@ -68,10 +68,6 @@ class strategy_MESA(Strategy):
         mydata.calc_derived_values()
         my_MESA = indicator_MESA(mydata.df)
         my_MESA.create()
-
-
-
-        print('foo')
 
 # df = pd.DataFrame([1,2,3])
 my_strategy = strategy_MESA()

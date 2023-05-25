@@ -5,7 +5,7 @@
 #    Algo-weaver is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 #    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 #    details.
-#    You should have received a copy of the GNU General Public License along with Alog-weaver. If not, see
+#    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
 from math import pi, exp, cos
 
@@ -15,10 +15,12 @@ class Indicator():
         #     raise Exception('must pass in a dataframe')
         # self.df = df
         self.min_warmup_candles = None
+        print('Creating indicator {} ...'.format(self.name))
 
     def initialise(self, data, warmup_candles):
         #create indicator over warmup candle number of rows in dataset
         pass
+
 
     def set_up_super_smoother_parameters(self,ss_period=10):
         self.ss_a = exp(-1.414*pi/ss_period)

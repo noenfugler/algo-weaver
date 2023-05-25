@@ -5,7 +5,7 @@
 #    Algo-weaver is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 #    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 #    details.
-#    You should have received a copy of the GNU General Public License along with Alog-weaver. If not, see
+#    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
 
 from orders.Order_class import Order
@@ -87,6 +87,7 @@ class Backtest():
         else:
             self.strategy.strategy_init()
             while not self.dataset.finished:
+                print('.', end='')
                 self.data = self.dataset.get_next_candle()
                 self.strategy._candle_init()
                 self.strategy.candle_init()

@@ -5,7 +5,7 @@
 #    Algo-weaver is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 #    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 #    details.
-#    You should have received a copy of the GNU General Public License along with Alog-weaver. If not, see
+#    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
 
 from graphs.CCI_PC_fama_graph import *
@@ -15,4 +15,4 @@ from graphs.Graph_CCI_mama_fama_cross import *
 from graphs.Graph_Early_Onset_Trend import *
 from graphs.Graph_Trend_Vigor import *
 from graphs.Graph_ACP import *
-from graphs.Graph_ACP_and_2_CCIs import *
+from graphs.Graph_ACP_and_2_ccis import *

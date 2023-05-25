@@ -5,14 +5,14 @@
 #    Algo-weaver is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 #    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 #    details.
-#    You should have received a copy of the GNU General Public License along with Alog-weaver. If not, see
+#    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
 
 from backtests.Backtest_class import Backtest
 from strategies.Strategies import *
 from instruments.Instruments import *
 from exchanges.Exchange_Binance import Exchange_Binance_Spot
-from exchanges.Exchange_Binance import Exchange_Binance_Futures
+# from exchanges.Exchange_Binance import Exchange_Binance_Futures
 from datasets.Datasets import *
 from graphs.Graphs import *
 from communicators.telegram_communicator import *
@@ -34,7 +34,7 @@ class Backtest_ACP(Backtest):
         return image
 
     def initialise(self, **kwargs):
-
+        print('Initialising backtest')
         self.starting_cash=0
         self.trading_cash=0
         self.starting_position=1
@@ -102,6 +102,7 @@ class Backtest_ACP(Backtest):
 
         # self.dataset.load_data(period=10., long_period = 42., amplitude_short=1., amplitude_long=0)
         self.dataset.load_data()
+        print('Creating indicators')
         indicator1.create(self.dataset.data)
         indicator_cci.create(self.dataset.data, source='close')
         indicator_i1_q1.create(self.dataset.data,source='cci_real', period='cci_period')
@@ -113,6 +114,7 @@ def main():
 
     use_telegram=True
     acp_max=int(4*24)
+    print('Configuring')
     # config1 = Config(instrument=Instrument_ETHAUD(), interval='1h', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     config1 = Config(instrument=Instrument_BTCAUD(), interval='15m', wait_time=15, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config1 = Config(instrument=Instrument_BTCAUD(), interval='5m', wait_time=5, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
@@ -137,7 +139,7 @@ def main():
     my_telegram = Telegram_Communicator()
     my_backtest1 = Backtest_ACP(instrument=config1.instrument, interval=config1.interval, exchange=config1.exchange, acp_max=acp_max)
     drop_last = 18
-
+    print('Backtesting')
     while True:
         if (datetime.now() >= last_run + wait_time) or first_run:
             first_run = False

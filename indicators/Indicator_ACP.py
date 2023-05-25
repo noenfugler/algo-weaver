@@ -5,23 +5,22 @@
 #    Algo-weaver is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 #    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 #    details.
-#    You should have received a copy of the GNU General Public License along with Alog-weaver. If not, see
+#    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
 
 from indicators.Indicator_class import Indicator
 from math import pi, cos, sin, exp
-# from math import isinf
 from pandas import NA, isna
 
 class Indicator_ACP(Indicator):
     def __init__(self):
+        # super(Indicator_ACP, self).__init__(bot=kwargs)
         self.min_warmup_candles = 50
 
     def initialise(self, kwargs):
         self.create(kwargs)
 
     def create(self, data, source='close', avg_length=3, lp_length=10, hp_length=48, acp_max=48, alpha2=0.7, hp_filt=False, lp_filt=False):
-
         # hp_length=15
         alpha1 = (cos(.707 * 2 * pi / hp_length) + sin(.707 * 2 * pi / hp_length) - 1) / cos(.707 * 2 * pi / hp_length)
         data['HP'] = data[source]
@@ -60,10 +59,10 @@ class Indicator_ACP(Indicator):
                 M = lag
             else:
                 M = avg_length
-            # X=data['filt'].rolling(window=M)
-            # Y=data['filt'].shift(lag).rolling(window=M)
-            # corr, _ = pearsonr(X,Y)
-            data['acp_' + str(lag)] = data['filt'].rolling(window=M).corr(data['filt'].shift(lag).rolling(window=M))
+            X=data['filt'].rolling(window=M)
+            Y=data['filt'].shift(lag).rolling(window=M)
+            corr, _ = pearsonr(X,Y)
+            # data['acp_' + str(lag)] = data['filt'].rolling(window=M).corr(data['filt'].shift(lag).rolling(window=M))
             # data['acp_' + str(lag)] = (1.0 + data['acp_' + str(lag)]) / 2
             data['acp_' + str(lag)] = data['acp_' + str(lag)].fillna(0)
             data['R1_' + str(lag)] = NA
