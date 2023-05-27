@@ -3,4 +3,4 @@ Algo-weaver is a algorithmic trading platform written in Python.  This program m
 
 You should be somewhat familiar with Python if you want to use Algo-weaver.  It's intended for people wanting to develop their own trading strategies, and as such requires some tinkering.
 
-Documentation is in the [wiki|https://github.com/noenfugler/algo-weaver/wiki].
+Documentation is in the wiki (https://github.com/noenfugler/algo-weaver/wiki).
