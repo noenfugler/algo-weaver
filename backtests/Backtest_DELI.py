@@ -30,6 +30,7 @@ class Backtest_DELI(Backtest):
             super(Backtest_DELI, self).__init__()
 
     def graph(self, save):
+        # TODO: Move the assignment of the GRAPH to the Backtest initialization
         my_graph = Graph_DELI(strategy=self.strategy, save=save)
         image = my_graph.graph()
         return image

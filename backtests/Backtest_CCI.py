@@ -121,7 +121,7 @@ class Backtest_CCI(Backtest):
 def main():
 
     use_telegram=False
-    config1 = Config(instrument=Instrument_ETHBTC(), interval='1d', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
+        config1 = Config(instrument=Instrument_ETHBTC(), interval='1d', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config1 = Config(instrument=Instrument_BTCAUD(), interval='15m', wait_time=15, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config1 = Config(instrument=Instrument_BTCAUD(), interval='15', wait_time=5, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config1 = Config(instrument=Instrument_BTCAUD(), interval='1m', wait_time=1, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)

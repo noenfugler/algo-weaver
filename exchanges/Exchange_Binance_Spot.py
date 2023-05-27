@@ -33,7 +33,7 @@ class Exchange_Binance_Spot(Exchange):
     def initialise(self):
         self.client = Spot_Client(self.api_key, self.secret_key)
 
-    def get_account_balance(self,symbol='USDT'):
+    def get_account_balance(self,symbol=''):
         assets = self.client.get_account()
         for asset in assets:
             if asset["asset"] == symbol:

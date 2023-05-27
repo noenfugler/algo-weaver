@@ -9,7 +9,7 @@
 #    <https://www.gnu.org/licenses/>.
 
 class Strategy():
-    def __init__(self, kwargs):
+    def __init__(self, **kwargs):
         # if 'exchange' in kwargs:
         #     self.exchange = kwargs['exchange']
         # else:

@@ -20,3 +20,18 @@ class Exchange():
         self.live = None
         self.can_short = None
         # self.bot = kwargs['bot']
+
+    def initialise(self):
+        # Initialise the connection to the exchange.
+        # Returns: none
+        pass
+
+    def get_account_balance(self, symbol='USDT'):
+        # call the exchange to get the account balance.  Define
+        # Accepts:  Symbol = the symbol of the currency to get the balance for
+        # Returns: float
+        pass
+
+    def get_open_orders(self):
+        # call the exchange to get the open orders.
+        pass

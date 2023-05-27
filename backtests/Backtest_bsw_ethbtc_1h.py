@@ -15,12 +15,13 @@ from exchanges.Exchange_Binance_Spot import Exchange_Binance_Spot
 from datasets.Binance_Spot_ETHBTC_1h_250_candles import Dataset_Binance_Spot_ETHBTC_1h_250_candles
 from indicators.Indicator_BSW import Indicator_BSW
 import matplotlib.pyplot as plt
+from configs.Config_class import *
 
 
 class Backtest_CCI_ETHBTC_1h(Backtest):
     def __init__(self, **kwargs):
         if len(kwargs)>0:
-            super(Backtest_CCI_ETHBTC_1h, self).__init__(kwargs)
+            super(Backtest_CCI_ETHBTC_1h, self).__init__(**kwargs)
         else:
             super(Backtest_CCI_ETHBTC_1h, self).__init__()
 
@@ -32,11 +33,11 @@ class Backtest_CCI_ETHBTC_1h(Backtest):
         self.starting_position=1
         self.position = 1
 
-        self.exchange = Exchange_Binance_Spot(self)
+        # self.exchange = Exchange_Binance_Spot(self)
         self.exchange.initialise()
 
 
-        self.strategy = Strategy_BSW_long_only(silent=False, trade_short=False, bot=self)
+        self.strategy = Strategy_BSW_long_only(silent=False, trade_short=False, bot=self, allow_long=True, allow_short=False)
 
         self.instrument = Instrument_ETHBTC()
 
@@ -57,6 +58,7 @@ class Backtest_CCI_ETHBTC_1h(Backtest):
 
 
     def graph(self):
+        # TODO: Move this to a separate graph child object
         fig, axs = plt.subplots(1, figsize=(15, 9.5))
         axs2=axs.twinx()
         fig.suptitle(self.interval + ' BSW ETHBTC' + str(self.data['date_time'].tail(1).values[0][:19]))
@@ -86,7 +88,9 @@ class Backtest_CCI_ETHBTC_1h(Backtest):
 
         plt.show()
 
-my_backtest = Backtest_CCI_ETHBTC_1h()
+use_telegram = False
+config1 = Config(instrument=Instrument_ETHBTC(), interval='1d', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
+my_backtest = Backtest_CCI_ETHBTC_1h(instrument=config1.instrument, interval=config1.interval, exchange=config1.exchange)
 my_backtest.initialise()
 my_backtest.run()
 my_backtest.report()

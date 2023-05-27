@@ -12,7 +12,7 @@ from backtests.Backtest_class import Backtest
 from strategies.Strategies import *
 from instruments.Instruments import *
 from exchanges.Exchange_Binance_Spot import Exchange_Binance_Spot
-from exchanges.Exchange_Binance_Futures import Exchange_Binance_Futures
+# from exchanges.Exchange_Binance_Futures import Exchange_Binance_Futures
 from datasets.Datasets import *
 from graphs.Graphs import *
 from communicators.telegram_communicator import *
@@ -83,7 +83,7 @@ class Backtest_CCI_suite(Backtest):
         indicator6 = Indicator_price()
         self.ls_indicators.append(indicator6)
 
-        indicator7 = Indicator_Detrender()
+        indicator7 = Indicator_Ehlers_Detrender()
         self.ls_indicators.append(indicator7)
 
         indicator8 = Indicator_percent_change()
@@ -144,9 +144,9 @@ def main():
     first_run = True
     wait_time = timedelta(minutes=config1.wait_time)
     my_telegram = Telegram_Communicator()
-    my_backtest1 = Backtest_mama_fama_cross(instrument=config1.instrument, interval=config1.interval, exchange=config1.exchange)
-    my_backtest2 = Backtest_mama_fama_cross(instrument=config2.instrument, interval=config2.interval, exchange=config2.exchange)
-    my_backtest3 = Backtest_mama_fama_cross(instrument=config3.instrument, interval=config3.interval, exchange=config3.exchange)
+    my_backtest1 = Backtest_CCI_suite(instrument=config1.instrument, interval=config1.interval, exchange=config1.exchange)
+    my_backtest2 = Backtest_CCI_suite(instrument=config2.instrument, interval=config2.interval, exchange=config2.exchange)
+    my_backtest3 = Backtest_CCI_suite(instrument=config3.instrument, interval=config3.interval, exchange=config3.exchange)
 
     while True:
         if (datetime.now() >= last_run + wait_time) or first_run:
