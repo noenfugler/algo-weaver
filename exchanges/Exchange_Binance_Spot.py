@@ -5,7 +5,7 @@
 #    Algo-weaver is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
 #    warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more
 #    details.
-#    You should have received a copy of the GNU General Public License along with Alog-weaver. If not, see
+#    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
 
 from exchanges.Exchange_class import Exchange
@@ -13,18 +13,19 @@ from datetime import datetime
 from time import sleep
 import pandas as pd
 from binance.client import Client as Spot_Client
-import Exchange_Binance_Spot_Secrets
+from exchanges import Exchange_Binance_Spot_Secrets
 # from binance import Client as Spot_Client
 
 class Exchange_Binance_Spot(Exchange):
-    def __init__(self, kwargs):
-        super(Exchange_Binance_Spot, self).__init__(bot=kwargs)
+    def __init__(self, **kwargs):
+        super(Exchange_Binance_Spot, self).__init__()
         self.min_leverage = 1
         self.max_leverage = 1
         self.default_leverage = 1
+        # Secret Key and API Key should be defined in a file called Exchange_{NAME}_Secrets.py
         self.secret_key = Exchange_Binance_Spot_Secrets.secret_key
         self.api_key = Exchange_Binance_Spot_Secrets.api_key
-        self.taker_fee = 0.0004
+        self.taker_fee = 0.0001
         self.maker_fee = 0.0001
         self.live = False
         self.can_short = False
@@ -71,24 +72,11 @@ class Exchange_Binance_Spot(Exchange):
             end_time=int(datetime(2020,9,30,0,0).timestamp()*1000)
         if self.source=='binance':
             self.client = Spot_Client(self.api_key, self.secret_key)
-            count = 0
-            max_increment = 1000
-            loop_done = False
-            all_results = []
-            while not loop_done:
-                if count + max_increment > limit:
-                    get_next = limit - count + 1
-                    loop_done=True
-
-                else:
-                    get_next = max_increment
-                sleep(1)
-                # result = self.client.futures_klines(symbol=symbol, interval=interval, endTime=end_time, limit=get_next)
-                result = self.client.get_historical_klines(symbol=symbol, interval=interval, endTime=end_time, limit=get_next)
-                all_results = result[:-1] + all_results
-                count += get_next -1
-                end_time = result[0][0]
-                sleep(1)
+            all_results = self.client.get_historical_klines(symbol=symbol, interval=interval, end_str=end_time, start_str= start_time, limit=limit)
+                # all_results = result[:-1] + all_results
+                # count += get_next -1
+                # end_time = result[0][0]
+                # sleep(1)
             temp_list = []
             if interval in ['1m', '3m', '5m', '15m', '30m']:
                 start_pos = 3
@@ -109,4 +97,3 @@ class Exchange_Binance_Spot(Exchange):
             self.df = pd.DataFrame(temp_list)
             self.df.columns = ['date_time', 'short_date_time', 'open', 'high', 'low', 'close']
             return self.df
-
