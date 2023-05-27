@@ -20,6 +20,7 @@ class Indicator_MAMA(Indicator):
         self.create(kwargs)
 
     def create(self, data, destination=('mama','fama'),sources=('close','i1'), ss_period=10):
+        print("Creating MAMA Indicator")
         fast_limit = 0.5
         slow_limit = 0.05
         data['phase'] = 0.0

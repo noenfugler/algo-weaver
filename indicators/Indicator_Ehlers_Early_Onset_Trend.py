@@ -23,6 +23,7 @@ class Indicator_Ehlers_Early_Onset_Trend(Indicator):
         # // Highpass filter cyclic components
         # // whose periods are shorter than
         # // 100 bars
+        print('Creating Ehlers Early Onset Trend Indictor')
         alpha1 = (cos(.707 * 2*pi / 100) + sin(.707 * 2*pi / 100) - 1) / cos(.707 * 2*pi / 100)
         data['_hp'] = 0.0
         data['_filt'] = 0.0

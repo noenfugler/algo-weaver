@@ -29,18 +29,15 @@ class Graph_ACP(Graph):
 
     def graph(self, save=False):
         self.strategy.bot.data_active = copy.deepcopy(self.strategy.bot.data.iloc[self.strategy.bot.get_warmup_candles():,])
-        fig, axs = plt.subplots(2,2, figsize=(15, 9.5))
-        # axs=[]
-        # axs[0,0]=axs2x2[0,0]
-        # axs[1,0]=axs2x2[1,0]
-        # axs[0,1]=axs2x2[0,1]
-        # axs[1,1]=axs2x2[1,1]
+        fig, axs = plt.subplots(nrows=2, figsize=(15, 9.5))
         fig.suptitle(self.get_title())
-        line1 = axs[0,0].plot(self.strategy.bot.data_active['date_time'], [0.5]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
-        line1 = axs[0,0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp2_strength'],color='purple', linewidth=0.75, zorder=4, alpha=1)
-        line1 = axs[0,0].plot(self.strategy.bot.data_active['date_time'], -self.strategy.bot.data_active['acp3_strength'],color='pink', linewidth=0.75, zorder=4, alpha=1)
-        axs[0,0].margins(0.0)
-        axs0=axs[0,0].twinx()
+        axs[0].set_title('50% ACP2 strength (black), ACP2 strength (purple), ACP3 strength (pink)')
+        line1 = axs[0].plot(self.strategy.bot.data_active['date_time'], [0.5]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
+        line1 = axs[0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp2_strength'],color='purple', linewidth=0.75, zorder=4, alpha=1)
+        line1 = axs[0].plot(self.strategy.bot.data_active['date_time'], -self.strategy.bot.data_active['acp3_strength'],color='pink', linewidth=0.75, zorder=4, alpha=1)
+        axs[0].margins(0.0)
+        axs0=axs[0].twinx()
+        axs0.set_title('Mama (blue)')
         line1 = axs0.plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['mama'],color='blue', linewidth=0.75, zorder=4, alpha=1)
 
         # Draw candlesticks
@@ -72,31 +69,33 @@ class Graph_ACP(Graph):
             # index2.append('sqsum_' + str(i))
         cols = [i for i in range(0,len(self.strategy.bot.data_active))]
         axs0.margins(0.0)
-        axs[1,1].margins(0.0)
-        axs[1,1].imshow(self.strategy.bot.data_active[index2].transpose().iloc[::-1], extent=[1, len(self.strategy.bot.data_active) ,8,self.acp_max+1], cmap=self.cmap)
-        line1 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], [10]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
-        line1 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], [20]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
-        line1 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], [30]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
-        line1 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], [40]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
-        line1 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], [50]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
-        line1 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], [60]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
-        line1 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], [70]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
-        line1 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], [80]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
-        line1 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], [90]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
-        line1 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp2_period'], color='purple', linewidth=0.75, zorder=4, alpha=1)
-        line2 = axs[1,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp3_period'], color='pink', linewidth=0.75, zorder=4, alpha=1)
+        axs[1].margins(0.0)
+        axs[1].imshow(self.strategy.bot.data_active[index2].transpose().iloc[::-1], extent=[1, len(self.strategy.bot.data_active) ,8,self.acp_max+1], cmap=self.cmap, aspect='auto')
+        line1 = axs[1].plot(self.strategy.bot.data_active['date_time'], [10]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
+        line1 = axs[1].plot(self.strategy.bot.data_active['date_time'], [20]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
+        line1 = axs[1].plot(self.strategy.bot.data_active['date_time'], [30]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
+        line1 = axs[1].plot(self.strategy.bot.data_active['date_time'], [40]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
+        line1 = axs[1].plot(self.strategy.bot.data_active['date_time'], [50]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
+        line1 = axs[1].plot(self.strategy.bot.data_active['date_time'], [60]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
+        line1 = axs[1].plot(self.strategy.bot.data_active['date_time'], [70]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
+        line1 = axs[1].plot(self.strategy.bot.data_active['date_time'], [80]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
+        line1 = axs[1].plot(self.strategy.bot.data_active['date_time'], [90]*len(self.strategy.bot.data_active['acp2_strength']),color='black', linewidth=0.75, zorder=4, alpha=0.5)
+        # line1 = axs[1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp2_period'], color='purple', linewidth=0.75, zorder=4, alpha=1)
+        # line2 = axs[1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp3_period'], color='pink', linewidth=0.75, zorder=4, alpha=1)
 
-        line2 = axs[1,0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['ccia_real'], color='blue', linewidth=0.75,
-                            zorder=4, alpha=1)
-        line2 = axs[1,0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['ccia_imag'], color='red', linewidth=0.75,
-                            zorder=4, alpha=1)
-        axs[1,1].margins(0.0)
+        # axs[1,0].set_title('Real (blue), Imaginary (red)')
+        # line2 = axs[1,0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['ccia_real'], color='blue', linewidth=0.75,
+        #                     zorder=4, alpha=1)
+        # line2 = axs[1,0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['ccia_imag'], color='red', linewidth=0.75,
+        #                     zorder=4, alpha=1)
+        axs[1].margins(0.0)
         # axs2=axs[0,1].twinx()
-        axs[0,1].margins(0.0)
+        # axs[0,1].margins(0.0)
 
-        line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp_aj_period']/2, color='grey', linewidth=0.75, zorder=4, alpha=1)
-        line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp_aj_period'], color='black', linewidth=0.75, zorder=4, alpha=1)
-        line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['ccia_cycle_count'], color='green', linewidth=0.75, zorder=4, alpha=1)
+        # line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp_aw_period']/2, color='grey', linewidth=0.75, zorder=4, alpha=1)
+        # line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp_aw_period'], color='black', linewidth=0.75, zorder=4, alpha=1)
+        # axs[0,1].set_title('CCIA Cycle count (green)')
+        # line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['ccia_cycle_count'], color='green', linewidth=0.75, zorder=4, alpha=1)
 
         index3 = []
         # df_graph = data.tail(include).head(include-drop_last_num_bars)

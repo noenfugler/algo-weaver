@@ -11,8 +11,8 @@
 from backtests.Backtest_class import Backtest
 from strategies.Strategies import *
 from instruments.Instruments import *
-from exchanges.Exchange_Binance import Exchange_Binance_Spot
-from exchanges.Exchange_Binance import Exchange_Binance_Futures
+from exchanges.Exchange_Binance_Spot import Exchange_Binance_Spot
+# from exchanges.Exchange_Binance_Futures import Exchange_Binance_Futures
 from datasets.Datasets import *
 from graphs.Graphs import *
 from communicators.telegram_communicator import *
@@ -36,7 +36,7 @@ class Backtest_CCI(Backtest):
         return image
 
     def initialise(self, **kwargs):
-
+        print("Intialising backtest")
         self.starting_cash=0
         self.trading_cash=0
         self.starting_position=1
@@ -45,7 +45,7 @@ class Backtest_CCI(Backtest):
 
         self.exchange.initialise()
 
-
+        print('Creating strategies')
         # self.strategy =  Strategy_CCI_re_im_cross_long_only(silent=False, allow_long=True, allow_short=False, bot=self)
         # self.strategy = Strategy_CCI_period_imag_and_mama(silent=False, allow_long=True, allow_short=False, bot=self, trend_factor=1.0)
         # self.strategy = Strategy_CCI_period_imag(silent=False, allow_long=True, allow_short=False, bot=self, trend_factor=1.0)
@@ -64,7 +64,7 @@ class Backtest_CCI(Backtest):
 
 
         self.live=False
-
+        print('Creating indicators)')
         indicator1 = Indicator_Super_Smoother()
         self.ls_indicators.append(indicator1)
 
@@ -83,7 +83,7 @@ class Backtest_CCI(Backtest):
         indicator6 = Indicator_price()
         self.ls_indicators.append(indicator6)
 
-        indicator7 = Indicator_Detrender()
+        indicator7 = Indicator_Ehlers_Detrender()
         self.ls_indicators.append(indicator7)
 
         indicator8 = Indicator_percent_change()
@@ -92,14 +92,13 @@ class Backtest_CCI(Backtest):
         indicator9 = Indicator_Super_Smoother()
         self.ls_indicators.append(indicator9)
 
-        # indicator10 = Indicator_Trend_AJ()
-        # self.ls_indicators.append(indicator10)
-        #
+        indicator10 = Indicator_Trend_AW()
+        self.ls_indicators.append(indicator10)
+
         indicator11 = Indicator_Super_Smoother()
         self.ls_indicators.append(indicator11)
 
-
-        self.dataset = Dataset_Binance_Futures_1h_100_candles(exchange=self.exchange, \
+        self.dataset = Dataset_Binance_Spot_250_candles(exchange=self.exchange, \
                                                                       live=False, \
                                                                       interval=self.interval, \
                                                                       warmup_candles=self.get_warmup_candles(), \
@@ -122,17 +121,17 @@ class Backtest_CCI(Backtest):
 def main():
 
     use_telegram=False
-    config1 = Config(instrument=Instrument_BTCAUD(), interval='1h', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
+    config1 = Config(instrument=Instrument_ETHBTC(), interval='1d', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config1 = Config(instrument=Instrument_BTCAUD(), interval='15m', wait_time=15, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config1 = Config(instrument=Instrument_BTCAUD(), interval='15', wait_time=5, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config1 = Config(instrument=Instrument_BTCAUD(), interval='1m', wait_time=1, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
 
-    config2 = Config(instrument=Instrument_ETHAUD(), interval='1h', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
+    # config2 = Config(instrument=Instrument_ETH(), interval='1d', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config2 = Config(instrument=Instrument_ETHAUD(), interval='15m', wait_time=15, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config2 = Config(instrument=Instrument_ETHAUD(), interval='15', wait_time=5, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config2 = Config(instrument=Instrument_ETHAUD(), interval='1m', wait_time=1, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
 
-    config3 = Config(instrument=Instrument_ETHBTC(), interval='1h', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
+    # config3 = Config(instrument=Instrument_ETHBTC(), interval='1d', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config3 = Config(instrument=Instrument_ETHAUD(), interval='15m', wait_time=15, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config3 = Config(instrument=Instrument_ETHAUD(), interval='15', wait_time=5, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config3 = Config(instrument=Instrument_ETHAUD(), interval='1m', wait_time=1, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
@@ -145,8 +144,8 @@ def main():
     wait_time = timedelta(minutes=config1.wait_time)
     my_telegram = Telegram_Communicator()
     my_backtest1 = Backtest_CCI(instrument=config1.instrument, interval=config1.interval, exchange=config1.exchange)
-    my_backtest2 = Backtest_CCI(instrument=config2.instrument, interval=config2.interval, exchange=config2.exchange)
-    my_backtest3 = Backtest_CCI(instrument=config3.instrument, interval=config3.interval, exchange=config3.exchange)
+    # my_backtest2 = Backtest_CCI(instrument=config2.instrument, interval=config2.interval, exchange=config2.exchange)
+    # my_backtest3 = Backtest_CCI(instrument=config3.instrument, interval=config3.interval, exchange=config3.exchange)
 
     while True:
         if (datetime.now() >= last_run + wait_time) or first_run:
@@ -180,46 +179,46 @@ def main():
 
             # run backtest with second config
 
-            my_backtest2.initialise()
-            my_backtest2.run()
-            my_backtest2.report()
-
-            image = my_backtest2.graph(config2.use_telegram)
-            if config2.use_telegram:
-                done = False
-                fail_count = 0
-                while not done:
-                    try:
-                        my_telegram.send_graph(image)
-                        done = True
-                    except:
-                        print('Sending failed.')
-                        fail_count += 1
-                        sleep(2 ^ fail_count)
-                        if fail_count > 9:
-                            done = True
-
-            # run backtest with THIRD config
-
-            my_backtest3.initialise()
-            my_backtest3.run()
-            my_backtest3.report()
-
-            image = my_backtest3.graph(config3.use_telegram)
-            if config3.use_telegram:
-                done=False
-                fail_count=0
-                while not done:
-                    try:
-                        my_telegram.send_graph(image)
-                        done=True
-                        print('Sent to Telegram.')
-                    except:
-                        print('Sending failed.')
-                        fail_count+=1
-                        sleep(2^fail_count)
-                        if fail_count > 9:
-                            done=True
+            # my_backtest2.initialise()
+            # my_backtest2.run()
+            # my_backtest2.report()
+            #
+            # image = my_backtest2.graph(config2.use_telegram)
+            # if config2.use_telegram:
+            #     done = False
+            #     fail_count = 0
+            #     while not done:
+            #         try:
+            #             my_telegram.send_graph(image)
+            #             done = True
+            #         except:
+            #             print('Sending failed.')
+            #             fail_count += 1
+            #             sleep(2 ^ fail_count)
+            #             if fail_count > 9:
+            #                 done = True
+            #
+            # # run backtest with THIRD config
+            #
+            # my_backtest3.initialise()
+            # my_backtest3.run()
+            # my_backtest3.report()
+            #
+            # image = my_backtest3.graph(config3.use_telegram)
+            # if config3.use_telegram:
+            #     done=False
+            #     fail_count=0
+            #     while not done:
+            #         try:
+            #             my_telegram.send_graph(image)
+            #             done=True
+            #             print('Sent to Telegram.')
+            #         except:
+            #             print('Sending failed.')
+            #             fail_count+=1
+            #             sleep(2^fail_count)
+            #             if fail_count > 9:
+            #                 done=True
 
 
             # my_graph2 = CCI_PC_fama_graph(strategy=my_backtest2.strategy)

@@ -21,8 +21,9 @@ class Indicator_CCI_Adaptive(Indicator):
     def initialise(self, kwargs):
         self.create(kwargs)
 
-    def create(self, data, source='close', destination_prefix='ccia', period='acp_aj_period', trend_angle=9, min_period=30, trigger_angle_trend = 0, mode='last'):
+    def create(self, data, source='close', destination_prefix='ccia', period='acp_aw_period', trend_angle=9, min_period=30, trigger_angle_trend = 0, mode='last'):
         # Correlate of one full cycle period
+        print("Creating CCI Adaptive indicator")
         self.set_up_super_smoother_parameters(ss_period=5)
         initial_length = int(self.min_warmup_candles/2)
         data[destination_prefix+'_real'] = 0.0
@@ -33,9 +34,9 @@ class Indicator_CCI_Adaptive(Indicator):
         data[destination_prefix+'_amp'] = 0.0
         data[destination_prefix+'_correlator'] = 1.0
         data[destination_prefix+'_period'] = 6.0
-        data[destination_prefix+'_period_aj'] = 60.0
-        data[destination_prefix+'_mode_aj_intermediate'] = 0.0
-        data[destination_prefix+'_mode_aj'] = 0.0
+        data[destination_prefix+'_period_aw'] = 60.0
+        data[destination_prefix+'_mode_aw_intermediate'] = 0.0
+        data[destination_prefix+'_mode_aw'] = 0.0
         data[destination_prefix+'_cycle_count'] = 0.0
         if mode=='last':
             length = int(data.loc[len(data)-1, period])
@@ -112,23 +113,23 @@ class Indicator_CCI_Adaptive(Indicator):
             data.at[row_num,destination_prefix+'_angle_roc']=data.loc[row_num,destination_prefix+'_angle']-data.loc[row_num-1,destination_prefix+'_angle']
             if data.loc[row_num,destination_prefix+'_angle_roc'] < -pi :
                 data.at[row_num, destination_prefix+'_angle_roc'] = data.loc[row_num, destination_prefix+'_angle_roc']+ 2*pi
-            data.at[row_num,destination_prefix+'_period_aj']=2*pi/data.loc[row_num, destination_prefix+'_angle_roc']
-            if isinf(data.at[row_num,destination_prefix+'_period_aj']) or data.at[row_num,destination_prefix+'_period_aj']> 40:
+            data.at[row_num,destination_prefix+'_period_aw']=2*pi/data.loc[row_num, destination_prefix+'_angle_roc']
+            if isinf(data.at[row_num,destination_prefix+'_period_aw']) or data.at[row_num,destination_prefix+'_period_aw']> 40:
                 #trend mode
                 if data.at[row_num,destination_prefix+'_imag'] > data.at[row_num,destination_prefix+'_real']:
-                    data.at[row_num, destination_prefix+'_mode_aj_intermediate']=-1
+                    data.at[row_num, destination_prefix+'_mode_aw_intermediate']=-1
                 else:
-                    data.at[row_num, destination_prefix+'_mode_aj_intermediate']=1
+                    data.at[row_num, destination_prefix+'_mode_aw_intermediate']=1
             else:
                 #cycle mode
-                data.at[row_num, destination_prefix+'_mode_aj_intermediate'] = 0
-            # data.at[row_num, destination_prefix+'_mode_aj']=data.loc[row_num, destination_prefix+'_mode_aj_intermediate']
-            data.at[row_num, destination_prefix+'_mode_aj']=(data.loc[row_num, destination_prefix+'_mode_aj_intermediate']+data.loc[row_num-1, destination_prefix+'_mode_aj_intermediate'])/2
-            if data.loc[row_num, destination_prefix+'_mode_aj']<1 and data.loc[row_num, destination_prefix+'_mode_aj']>-1:
-                data.at[row_num, destination_prefix+'_mode_aj']=0
+                data.at[row_num, destination_prefix+'_mode_aw_intermediate'] = 0
+            # data.at[row_num, destination_prefix+'_mode_aw']=data.loc[row_num, destination_prefix+'_mode_aw_intermediate']
+            data.at[row_num, destination_prefix+'_mode_aw']=(data.loc[row_num, destination_prefix+'_mode_aw_intermediate']+data.loc[row_num-1, destination_prefix+'_mode_aw_intermediate'])/2
+            if data.loc[row_num, destination_prefix+'_mode_aw']<1 and data.loc[row_num, destination_prefix+'_mode_aw']>-1:
+                data.at[row_num, destination_prefix+'_mode_aw']=0
 
             # else:
-            #     data.at[row_num, destination_prefix+'_mode_aj'] = data.loc[row_num-1, destination_prefix+'_mode_aj_intermediate']
+            #     data.at[row_num, destination_prefix+'_mode_aw'] = data.loc[row_num-1, destination_prefix+'_mode_aw_intermediate']
             if data.loc[row_num, destination_prefix+'_imag'] > data.loc[row_num, destination_prefix+'_real'] and \
                     data.loc[row_num-1, destination_prefix+'_imag'] < data.loc[row_num-1, destination_prefix+'_real'] or \
                     data.loc[row_num, destination_prefix+'_imag'] < data.loc[row_num, destination_prefix+'_real'] and \

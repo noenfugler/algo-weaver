@@ -14,3 +14,5 @@ from datasets.Binance_Futures_1h_1000_candles import Dataset_Binance_Futures_1h_
 from datasets.Sine_Wave_100_candles import *
 from datasets.Binance_Spot_250_candles import *
 from datasets.Binance_Spot_100_candles import *
+from datasets.Binance_Spot_1d_100_candles import *
+

@@ -26,3 +26,4 @@ from strategies.strategy_early_onset_trend_indicator import *
 from strategies.strategy_ehlers_trend_vigor_indicator import *
 from strategies.strategy_do_nothing import *
 from strategies.strategy_acp_and_2_ccis import *
+from strategies.strategy_Ehlers_Detrender import *

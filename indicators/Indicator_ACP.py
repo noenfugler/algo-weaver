@@ -7,6 +7,7 @@
 #    details.
 #    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
+from scipy.stats import pearsonr
 
 from indicators.Indicator_class import Indicator
 from math import pi, cos, sin, exp
@@ -22,6 +23,7 @@ class Indicator_ACP(Indicator):
 
     def create(self, data, source='close', avg_length=3, lp_length=10, hp_length=48, acp_max=48, alpha2=0.7, hp_filt=False, lp_filt=False):
         # hp_length=15
+        print("Creating ACP indicator")
         alpha1 = (cos(.707 * 2 * pi / hp_length) + sin(.707 * 2 * pi / hp_length) - 1) / cos(.707 * 2 * pi / hp_length)
         data['HP'] = data[source]
         data['filt'] = 0.0
@@ -30,7 +32,7 @@ class Indicator_ACP(Indicator):
         data['acp_dominant_cycle'] = 0
         data['acp_last_peak'] = 0
         data['acp_last_trough'] = 0
-        data['acp_aj_period'] = 0
+        data['acp_aw_period'] = 0
 
         a1 = exp(-1.414 * 2 * pi / lp_length)
         b1 = 2 * a1 * cos(1.414 * pi / lp_length)
@@ -59,10 +61,14 @@ class Indicator_ACP(Indicator):
                 M = lag
             else:
                 M = avg_length
-            X=data['filt'].rolling(window=M)
-            Y=data['filt'].shift(lag).rolling(window=M)
-            corr, _ = pearsonr(X,Y)
+            # X=data['filt'].rolling(window=M)
+            # Y=data['filt'].shift(lag).rolling(window=M)
+            # corr, _ = pearsonr(X,Y)
+
             # data['acp_' + str(lag)] = data['filt'].rolling(window=M).corr(data['filt'].shift(lag).rolling(window=M))
+            data['filt_shifted_'+str(lag)] = data['filt'].shift(lag)
+            data['acp_' + str(lag)] = data['filt'].rolling(window=M).corr(data['filt_shifted_'+str(lag)])
+
             # data['acp_' + str(lag)] = (1.0 + data['acp_' + str(lag)]) / 2
             data['acp_' + str(lag)] = data['acp_' + str(lag)].fillna(0)
             data['R1_' + str(lag)] = NA
@@ -70,6 +76,7 @@ class Indicator_ACP(Indicator):
         # print()
         # calc acp period
         last_period_row = max(3, avg_length) - 2  # TODO: NOT SURE WHAT THIS DOES
+        print('bar')
         for row_num in range(max(2, avg_length), len(data)):  # TODO: NOT SURE WHY THIS MIN
             for period in range(2, acp_max + 1):
                 data.at[row_num, 'acp_cosinepart_' + str(period)] = 0.0
@@ -154,15 +161,17 @@ class Indicator_ACP(Indicator):
             data.at[row_num, 'acp2_strength'] = max_acp2
             data.at[row_num, 'acp_period_half_cycle'] = dominant_cycle_half_cycle
             data.at[row_num, 'acp3_strength'] = max_acp3
+            print(1)
             if isna(dominant_cycle_full_cycle):
                 dominant_cycle_full_cycle=0.0
             if isna(dominant_cycle_half_cycle):
                 dominant_cycle_half_cycle=0.0
             if max_acp2 > -max_acp3:
-                data.at[row_num, 'acp_aj_period'] = dominant_cycle_full_cycle * alpha2 + data.loc[row_num-1, 'acp_aj_period']*(1-alpha2)
+                data.at[row_num, 'acp_aw_period'] = dominant_cycle_full_cycle * alpha2 + data.loc[row_num-1, 'acp_aw_period']*(1-alpha2)
             else:
-                data.at[row_num, 'acp_aj_period'] = dominant_cycle_half_cycle * 2 * alpha2 + data.loc[row_num-1, 'acp_aj_period']*(1-alpha2)
-            # data.at[row_num, 'acp_aj_period'] = data.loc[row_num-1, 'acp_aj_period']
+                data.at[row_num, 'acp_aw_period'] = dominant_cycle_half_cycle * 2 * alpha2 + data.loc[row_num-1, 'acp_aw_period']*(1-alpha2)
+            print(2)
+            # data.at[row_num, 'acp_aw_period'] = data.loc[row_num-1, 'acp_aw_period']
         # my Period calcs
         # for row_num in range(max(2, avg_length), len(data)):
         #     if data.loc[row_num - 1, 'acp_1'] < data.loc[row_num, 'acp_1'] and \

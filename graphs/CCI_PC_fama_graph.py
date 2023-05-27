@@ -19,12 +19,13 @@ class CCI_PC_fama_graph(Graph):
     def graph(self, save=False):
         self.save = save
         self.strategy.bot.data_active = self.strategy.bot.data#.iloc[self.strategy.bot.get_warmup_candles():]
-        fig, axs = plt.subplots(3, figsize=(15, 9.5))
+        fig, axs = plt.subplots(3, figsize=(15, 8))
         fig.suptitle(self.get_title())
 
         # axs0=axs[0].twinx()
 
         # Draw candlesticks
+        axs[0].set_title("Mama (blue) and Fama (purple)")
         axs[0] = self.draw_all_candlesticks(axs[0])
         line1 = axs[0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['mama'],color='blue', linewidth=0.75, zorder=4)
         line1 = axs[0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['fama'],color='purple', linewidth=0.75, zorder=5)
@@ -44,18 +45,21 @@ class CCI_PC_fama_graph(Graph):
 
         axs[0].plot(buy_x, buy_y, '^', color='blue', markersize=7, zorder=6)
         axs[0].plot(sell_x, sell_y, 'v', color='red', markersize=7, zorder=7)
-        axs[0].grid(b=True, which='major', color='#445577', linestyle=':')
-
+        # axs[0].grid(b=True, which='major', color='#445577', linestyle=':')
+        axs[0].grid(which='major', color='#445577', linestyle=':')
+        axs[1].set_title("CCI Imaginary (red) and Real (blue).  CCI Period (purple)")
         line4 = axs[1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_imag'],color='red', linewidth=0.75)
         line5 = axs[1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_real'],color='blue', linewidth=0.75)
         axs1=axs[1].twinx()
-        line = axs1.plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_period_aj'],color='purple', linewidth=0.75)
-        axs[1].grid(b=True, which='major', color='#445577', linestyle=':')
-
+        line = axs1.plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_period_aw'],color='purple', linewidth=0.75)
+        # axs[1].grid(b=True, which='major', color='#445577', linestyle=':')
+        axs[1].grid(which='major', color='#445577', linestyle=':')
+        axs[2].set_title("PC Fama (black), ss_pc_fama (orange) 0.0 (grey)")
         line1 = axs[2].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['pc_fama'],color='black', linewidth=0.75, zorder=4)
         line1 = axs[2].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['ss_pc_fama'],color='orange', linewidth=0.75, zorder=4)
         line1 = axs[2].plot(self.strategy.bot.data_active['date_time'], [0.0]*len(self.strategy.bot.data_active),color='grey', linewidth=0.5, zorder=1)
-        axs[2].grid(b=True, which='major', color='#445577', linestyle=':')
+        # axs[2].grid(b=True, which='major', color='#445577', linestyle=':')
+        axs[2].grid(which='major', color='#445577', linestyle=':')
 
         self.display()
 
@@ -81,7 +85,7 @@ class CCI_PC_fama_graph(Graph):
         title = title.replace(':',"")
         fig.suptitle(title)
         # Draw candlesticks
-        line1 = axs[0].plot(self.strategy.bot.data['date_time'], self.strategy.bot.data['cci_mode_aj'],color='purple', linewidth=0.75)
+        line1 = axs[0].plot(self.strategy.bot.data['date_time'], self.strategy.bot.data['cci_mode_aw'],color='purple', linewidth=0.75)
 
         # axs0=axs[0].twinx()
 
@@ -121,7 +125,7 @@ class CCI_PC_fama_graph(Graph):
         # line1 = axs[2].plot(self.bot.data_active['date_time'], [-0.06]*len(self.bot.data),color='orange', linewidth=0.75, zorder=1)
         line1 = axs[2].plot(self.strategy.bot.data_active['date_time'], [0.00]*len(self.strategy.bot.data),color='grey', linewidth=0.75, zorder=1)
         # axs2 = axs[2].twinx()
-        line = axs2.plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_period_aj'],color='purple', linewidth=0.75)
+        line = axs2.plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_period_aw'],color='purple', linewidth=0.75)
         # axs2.set_ylim(0,100)
 
         if save:

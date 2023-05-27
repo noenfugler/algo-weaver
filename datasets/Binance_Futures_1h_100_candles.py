@@ -21,7 +21,9 @@ class Dataset_Binance_Futures_1h_100_candles(Dataset):
         self.start_str = '2021-06-06'
 
     def load_data(self):
-        self.data = self.exchange.get_klines(symbol=self.instrument.symbol, limit=100, utc=False, date_split=False, interval=self.interval, start_time=self.start_str)
+        print('Loading data from exchange')
+        self.data = self.exchange.get_klines(symbol=self.instrument.symbol, limit=10, utc=False, date_split=False, interval=self.interval, start_time=self.start_str)
         super(Dataset_Binance_Futures_1h_100_candles, self).load_data()
+        print('Finished loading data from exchange')
 
 

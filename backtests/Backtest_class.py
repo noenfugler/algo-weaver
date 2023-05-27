@@ -15,6 +15,7 @@ from utils.util_functions import round_time
 
 class Backtest():
     def __init__(self, **kwargs):
+        print('Creating Backtest object')
         self.exchange = None
         self.instrument = kwargs['instrument']
         self.interval = kwargs['interval']
@@ -45,6 +46,7 @@ class Backtest():
         return highest_num
 
     def run(self):
+        print('Running Backtest')
         # self.initialise()
         self.execute()
         self.save_results()

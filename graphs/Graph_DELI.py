@@ -7,23 +7,19 @@
 #    details.
 #    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
-
+#  Detrended Ehlers Leading Indicator
 from graphs.Graphs_class import *
 import matplotlib.pyplot as plt
 
-class Graph_Trend_Vigor(Graph):
+class Graph_DELI(Graph):
     def __init__(self, **kwargs):
-        super(Graph_Trend_Vigor, self).__init__(**kwargs)
-        self.short_title = 'Trend Vigor'
+        super(Graph_DELI, self).__init__(**kwargs)
+        self.short_title = 'Detrended Ehlers Leading Indicator'
 
-    def graph(self, save=False):
-        self.strategy.bot.data_active = self.strategy.bot.data#.iloc[self.strategy.bot.get_warmup_candles():]
-        fig, axs = plt.subplots(2, figsize=(15, 9.5))
+    def graph(self):
+        self.strategy.bot.data_active = self.strategy.bot.data
+        fig, axs = plt.subplots(2, figsize=(15, 8.0))
         fig.suptitle(self.get_title())
-        line1 = axs[0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['close'],color='lightgrey', linewidth=0.75, zorder=4, alpha=0)
-        # axs.set_ylim(0,40)
-
-        # axs0=axs[0].twinx()
 
         # Draw candlesticks
         axs[0] = self.draw_all_candlesticks(axs[0])
@@ -43,19 +39,15 @@ class Graph_Trend_Vigor(Graph):
 
         axs[0].plot(buy_x, buy_y, '^', color='blue', markersize=7, zorder=6)
         axs[0].plot(sell_x, sell_y, 'v', color='red', markersize=7, zorder=7)
+        axs[1].set_title('DELI')
+        line4 = axs[1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['deli'],color='green', linewidth=0.75)
 
-        line4 = axs[1].plot(self.strategy.bot.data_active['date_time'], [0.71]*len(self.strategy.bot.data_active),color='grey', linewidth=0.75)
-        line4 = axs[1].plot(self.strategy.bot.data_active['date_time'], [0]*len(self.strategy.bot.data_active),color='grey', linewidth=0.75)
-        line4 = axs[1].plot(self.strategy.bot.data_active['date_time'], [-0.71]*len(self.strategy.bot.data_active),color='grey', linewidth=0.75)
-        line4 = axs[1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['vigor'],color='green', linewidth=0.75)
-        line5 = axs[1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['etv_trigger'],color='red', linewidth=0.75)
-
-        self.display()
+        return self.display()
 
 
     def graph_create(self):
         self.strategy.bot.data_active = self.strategy.bot.data #.iloc[self.get_warmup_candles():]
-        self.fig, self.axs = plt.subplots(3, figsize=(15, 9.5))
+        self.fig, self.axs = plt.subplots(3, figsize=(15, 8))
         self.axs0=axs[0].twinx()
         self.axs0b=axs[0].twinx()
         self.axs1=axs[1].twinx()
@@ -114,6 +106,7 @@ class Graph_Trend_Vigor(Graph):
         # axs2 = axs[2].twinx()
         line = axs2.plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_period_aw'],color='purple', linewidth=0.75)
         # axs2.set_ylim(0,100)
+        axs[2].axhline(0, color='grey')
 
         plt.show(block=False)
 

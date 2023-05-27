@@ -16,3 +16,5 @@ from graphs.Graph_Early_Onset_Trend import *
 from graphs.Graph_Trend_Vigor import *
 from graphs.Graph_ACP import *
 from graphs.Graph_ACP_and_2_ccis import *
+from graphs.Graph_Detrender import *
+from graphs.Graph_DELI import *

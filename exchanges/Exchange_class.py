@@ -9,6 +9,7 @@
 #    <https://www.gnu.org/licenses/>.
 class Exchange():
     def __init__(self, **kwargs):
+        print('Creating exchange object')
         self.min_leverage = None
         self.max_leverage = None
         self.default_leverage = None

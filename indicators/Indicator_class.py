@@ -35,3 +35,9 @@ class Indicator():
     #     self.ss_c2 = self.ss_b
     #     self.ss_c3 = -self.ss_a * self.ss_a
     #     self.ss_c1 = 1 - self.ss_c2 - self.ss_c3
+
+    # def requirements(self, indicators):
+    #     for indicator in indicators:
+    #TODO: Add support for indicators to check for prerequisite indicators
+    # the idea here is for an indicator to check is there are prerequisite indicators, and if so load them.
+    # given that indicators have to run after data is loaded, need to think how this might be done.

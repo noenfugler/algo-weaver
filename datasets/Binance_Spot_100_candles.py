@@ -18,7 +18,7 @@ class Dataset_Binance_Spot_100_candles(Dataset):
             super().__init__()
         self.num_candles=100
         self.date_split=False
-        self.start_str = '2021-07-03'
+        self.start_str = '2022-07-03'
 
     def load_data(self):
         self.data = self.exchange.get_klines(symbol=self.instrument.symbol, limit=100, utc=False, date_split=False, interval=self.interval, start_time=self.start_str)

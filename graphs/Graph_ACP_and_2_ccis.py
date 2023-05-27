@@ -112,8 +112,8 @@ class Graph_ACP_and_2_CCIs(Graph):
         # axs2=axs[0,1].twinx()
         axs[0,1].margins(0.0)
 
-        # line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp_aj_period']/2, color='grey', linewidth=0.75, zorder=4, alpha=1)
-        # line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp_aj_period'], color='black', linewidth=0.75, zorder=4, alpha=1)
+        # line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp_aw_period']/2, color='grey', linewidth=0.75, zorder=4, alpha=1)
+        # line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['acp_aw_period'], color='black', linewidth=0.75, zorder=4, alpha=1)
         # line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['ccia_cycle_count'], color='green', linewidth=0.75, zorder=4, alpha=1)
         line2 = axs[0,1].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['ccia_full_real'], color='blue', linewidth=0.75,
                             zorder=4, alpha=abs(self.strategy.bot.data_active.loc[len(self.strategy.bot.data)-1,'acp2_strength']))

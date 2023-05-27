@@ -13,7 +13,7 @@ from strategies.strategy_CCI_state_and_angle_long_only import Strategy_CCI_state
 from strategies.strategy_cci_imag_long_only import Strategy_CCI_imag_long_only
 from strategies.strategy_cci_re_im_cross import Strategy_CCI_re_im_cross_long_only
 from instruments.Instrument_ETHBTC import Instrument_ETHBTC
-from exchanges.Exchange_Binance import Exchange_Binance_Spot
+from exchanges.Exchange_Binance_Spot import Exchange_Binance_Spot
 from datasets.Binance_Spot_ETHBTC_1h_250_candles import Dataset_Binance_Spot_ETHBTC_1h_250_candles
 from indicators.Indicator_CCI import Indicator_CCI
 import matplotlib.pyplot as plt

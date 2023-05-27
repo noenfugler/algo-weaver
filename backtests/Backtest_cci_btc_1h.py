@@ -11,9 +11,9 @@
 from backtests.Backtest_class import Backtest
 from strategies.acp_filt import Strategy_ACP_filt
 from instruments.Instrument_BTCUSDT import Instrument_BTCUSDT
-from exchanges.Exchange_Binance import Exchange_Binance_Spot
+from exchanges.Exchange_Binance_Spot import Exchange_Binance_Spot
 from datasets.Binance_Futures_BTCUSDT_1h_250_candles import Dataset_Binance_Futures_BTCUSDT_1h_250_candles
-from indicators.ACP_filt import Indicator_ACP_filt
+from indicators import Indicator_ACP_filt
 
 class Backtest_CCI_BTC_1h(Backtest):
     def __init__(self, **kwargs):

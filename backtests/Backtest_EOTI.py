@@ -11,8 +11,8 @@
 from backtests.Backtest_class import Backtest
 from strategies.Strategies import *
 from instruments.Instruments import *
-from exchanges.Exchange_Binance import Exchange_Binance_Spot
-from exchanges.Exchange_Binance import Exchange_Binance_Futures
+from exchanges.Exchange_Binance_Spot import Exchange_Binance_Spot
+from exchanges.Exchange_Binance_Futures import Exchange_Binance_Futures
 from datasets.Datasets import *
 from graphs.Graphs import *
 from communicators.telegram_communicator import *
@@ -69,7 +69,7 @@ class Backtest_EOTI(Backtest):
         self.ls_indicators.append(indicator1)
 
 
-        self.dataset = Dataset_Binance_Futures_1h_100_candles(exchange=self.exchange, \
+        self.dataset = Dataset_Binance_Spot_250_candles(exchange=self.exchange, \
                                                                       live=False, \
                                                                       interval=self.interval, \
                                                                       warmup_candles=self.get_warmup_candles(), \

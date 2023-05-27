@@ -67,9 +67,17 @@ class Strategy():
         return self.bot.data.loc[self.last_row-1, source1] > self.bot.data.loc[self.last_row-1, source2] and \
                self.bot.data.loc[self.last_row-2, source1] <= self.bot.data.loc[self.last_row-2, source2]
 
+    def _cross_over_value(self, source, value):
+        return self.bot.data.loc[self.last_row-1, source] > value and \
+               self.bot.data.loc[self.last_row-2, source] <= value
+
     def _cross_under(self, source1, source2):
         return self.bot.data.loc[self.last_row-1, source1] < self.bot.data.loc[self.last_row-1, source2] and \
                self.bot.data.loc[self.last_row-2, source1] >= self.bot.data.loc[self.last_row-2, source2]
+
+    def _cross_under_value(self, source, value):
+        return self.bot.data.loc[self.last_row-1, source] < value and \
+               self.bot.data.loc[self.last_row-2, source] >= value
 
     def _trough(self, source):
         return self.bot.data.loc[self.last_row-1, source] > self.bot.data.loc[self.last_row-2, source] and \

@@ -11,7 +11,7 @@
 from backtests.Backtest_class import Backtest
 from strategies.Strategies import *
 from instruments.Instruments import *
-from exchanges.Exchange_Binance import Exchange_Binance_Spot
+from exchanges.Exchange_Binance_Spot import Exchange_Binance_Spot
 # from exchanges.Exchange_Binance import Exchange_Binance_Futures
 from datasets.Datasets import *
 from graphs.Graphs import *
@@ -108,7 +108,9 @@ class Backtest_ACP(Backtest):
         indicator_i1_q1.create(self.dataset.data,source='cci_real', period='cci_period')
         indicator_mama.create(self.dataset.data)
         indicator_acp.create(self.dataset.data, avg_length=0, lp_length=10, hp_length=96, acp_max=self.acp_max, source='mama', alpha2=0.4)
-        indicator_ccia.create(self.dataset.data, source='mama')
+        print('foo')
+        indicator_ccia_half.create(self.dataset.data, source='mama')
+        indicator_ccia_full.create(self.dataset.data, source='mama')
 
 def main():
 
@@ -116,16 +118,16 @@ def main():
     acp_max=int(4*24)
     print('Configuring')
     # config1 = Config(instrument=Instrument_ETHAUD(), interval='1h', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
-    config1 = Config(instrument=Instrument_BTCAUD(), interval='15m', wait_time=15, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
+    # config1 = Config(instrument=Instrument_BTCAUD(), interval='1d', wait_time=15, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config1 = Config(instrument=Instrument_BTCAUD(), interval='5m', wait_time=5, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config1 = Config(instrument=Instrument_BTCAUD(), interval='1m', wait_time=1, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
 
-    config2 = Config(instrument=Instrument_ETHAUD(), interval='1h', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
+    # config2 = Config(instrument=Instrument_ETHAUD(), interval='1h', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config2 = Config(instrument=Instrument_ETHAUD(), interval='15m', wait_time=15, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config2 = Config(instrument=Instrument_ETHAUD(), interval='15', wait_time=5, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config2 = Config(instrument=Instrument_ETHAUD(), interval='1m', wait_time=1, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
 
-    config3 = Config(instrument=Instrument_ETHBTC(), interval='1h', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
+    config1 = Config(instrument=Instrument_ETHBTC(), interval='1d', wait_time=60, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config3 = Config(instrument=Instrument_ETHAUD(), interval='15m', wait_time=15, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config3 = Config(instrument=Instrument_ETHAUD(), interval='15', wait_time=5, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
     # config3 = Config(instrument=Instrument_ETHAUD(), interval='1m', wait_time=1, exchange=Exchange_Binance_Spot(), use_telegram=use_telegram)
@@ -148,6 +150,7 @@ def main():
 
 
             #run backtest with first config
+            print('Backtest with first config')
 
             my_backtest1.initialise()
             my_backtest1.run()
@@ -160,7 +163,7 @@ def main():
                 while not done:
                     # try:
                     if True:
-                        my_telegram.send_graph(image)
+                        # my_telegram.send_graph(image)
                         done=True
                         print('Sent to Telegram.')
                     else:

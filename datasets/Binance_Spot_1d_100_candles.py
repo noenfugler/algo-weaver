@@ -7,11 +7,21 @@
 #    details.
 #    You should have received a copy of the GNU General Public License along with Algo-weaver. If not, see
 #    <https://www.gnu.org/licenses/>.
-class Config():
+
+from datasets.Dataset_class import Dataset
+
+class Dataset_Binance_Spot_1d_100_candles(Dataset):
     def __init__(self, **kwargs):
-        print('Creating configuration')
-        self.instrument = kwargs['instrument']
-        self.interval = kwargs['interval']
-        self.wait_time = kwargs['wait_time']
-        self.exchange = kwargs['exchange']
-        self.use_telegram = kwargs['use_telegram']
+        if len(kwargs)>0:
+            super().__init__(kwargs)
+        else:
+            super().__init__()
+        self.num_candles=100
+        self.date_split=False
+        self.start_str = '2022-05-14'
+
+    def load_data(self):
+        self.data = self.exchange.get_klines(symbol=self.instrument.symbol, limit=100, utc=False, date_split=False, interval=self.interval, start_time=self.start_str)
+        super(Dataset_Binance_Spot_1d_100_candles, self).load_data()
+
+

@@ -16,8 +16,8 @@ from strategies.strategy_CCI_period_imag_and_mama_long_short import Strategy_CCI
 # from instruments.Instrument_BTCAUD import Instrument_BTCAUD
 from instruments.Instrument_BTCUSDT import Instrument_BTCUSDT
 # import instruments.Instruments as I
-from exchanges.Exchange_Binance import Exchange_Binance_Spot
-from exchanges.Exchange_Binance import Exchange_Binance_Futures
+from exchanges.Exchange_Binance_Spot import Exchange_Binance_Spot
+from exchanges.Exchange_Binance_Futures import Exchange_Binance_Futures
 from datasets.Binance_Spot_1h_1000_candles import Dataset_Binance_Spot_1h_1000_candles
 from datasets.Binance_Spot_1h_100_candles import Dataset_Binance_Spot_1h_100_candles
 from datasets.Binance_Futures_1h_100_candles import Dataset_Binance_Futures_1h_100_candles
@@ -93,11 +93,11 @@ class Backtest_CCI_AUDUSDT_1h(Backtest):
         line1 = axs[0].plot(self.data_active['date_time'], self.data_active['ss_mama'],color='green', linewidth=0.75)
 
         axs2=axs[0].twinx()
-        line1 = axs2.plot(self.data['date_time'], self.data['cci_mode_aj'],color='purple', linewidth=0.75)
+        line1 = axs2.plot(self.data['date_time'], self.data['cci_mode_aw'],color='purple', linewidth=0.75)
         line4 = axs[1].plot(self.data_active['date_time'], self.data_active['cci_imag'],color='red', linewidth=0.75)
         line5 = axs[1].plot(self.data_active['date_time'], self.data_active['cci_real'],color='blue', linewidth=0.75)
         axs[2].set_ylim(0,50)
-        line = axs[2].plot(self.data_active['date_time'], self.data_active['cci_period_aj'],color='red', linewidth=0.75)
+        line = axs[2].plot(self.data_active['date_time'], self.data_active['cci_period_aw'],color='red', linewidth=0.75)
 
         # buy and sell plots
         buy_x = []

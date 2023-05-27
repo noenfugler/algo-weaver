@@ -22,6 +22,6 @@ class Indicator_WMA4(Indicator):
 
     def create(self, data, source='close', destination='wma4'):
         #1 bar of lag
-        self.df[destination]=0
-        self.df[destination]=(self.df[source]*4+self.df[source].shift(1)*3+self.df[source].shift(2)*2+self.df[source].shift(3))/10
-        self.df[destination]=self.df[destination].fillna(0)
+        data[destination]=0
+        data[destination]=(data[source]*4+data[source].shift(1)*3+data[source].shift(2)*2+data[source].shift(3))/10
+        data[destination]=data[destination].fillna(0)

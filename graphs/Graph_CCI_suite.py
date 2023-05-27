@@ -20,7 +20,7 @@ class Graph_CCI_suite(Graph):
         self.strategy.bot.data_active = self.strategy.bot.data #.iloc[self.get_warmup_candles():]
         fig, axs = plt.subplots(3, figsize=(15, 9.5))
         fig.suptitle(self.get_title())
-        line1 = axs[0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_mode_aj'],color='red', linewidth=0.75, zorder=4)
+        line1 = axs[0].plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_mode_aw'],color='red', linewidth=0.75, zorder=4)
         # axs.set_ylim(0,40)
 
         axs0=axs[0].twinx()
@@ -86,7 +86,7 @@ class Graph_CCI_suite(Graph):
         # fig, axs = plt.subplots(3, figsize=(15, 9.5))
         fig.suptitle(self.strategy.bot.interval + ' CCI ' + self.strategy.bot.instrument.symbol + ' ' + str(self.strategy.bot.data_active['date_time'].tail(1).values[0][:19]))
         # Draw candlesticks
-        line1 = axs[0].plot(self.strategy.bot.data['date_time'], self.strategy.bot.data['cci_mode_aj'],color='purple', linewidth=0.75)
+        line1 = axs[0].plot(self.strategy.bot.data['date_time'], self.strategy.bot.data['cci_mode_aw'],color='purple', linewidth=0.75)
 
         # axs0=axs[0].twinx()
 
@@ -126,7 +126,7 @@ class Graph_CCI_suite(Graph):
         # line1 = axs[2].plot(self.bot.data_active['date_time'], [-0.06]*len(self.bot.data),color='orange', linewidth=0.75, zorder=1)
         line1 = axs[2].plot(self.strategy.bot.data_active['date_time'], [0.00]*len(self.strategy.bot.data),color='grey', linewidth=0.75, zorder=1)
         # axs2 = axs[2].twinx()
-        line = axs2.plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_period_aj'],color='purple', linewidth=0.75)
+        line = axs2.plot(self.strategy.bot.data_active['date_time'], self.strategy.bot.data_active['cci_period_aw'],color='purple', linewidth=0.75)
         # axs2.set_ylim(0,100)
 
         plt.show(block=False)

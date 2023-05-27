@@ -11,8 +11,8 @@
 from backtests.Backtest_class import Backtest
 from strategies.Strategies import *
 from instruments.Instruments import *
-from exchanges.Exchange_Binance import Exchange_Binance_Spot
-from exchanges.Exchange_Binance import Exchange_Binance_Futures
+from exchanges.Exchange_Binance_Spot import Exchange_Binance_Spot
+from exchanges.Exchange_Binance_Futures import Exchange_Binance_Futures
 from datasets.Datasets import *
 from graphs.Graphs import *
 from communicators.telegram_communicator import *
@@ -99,7 +99,12 @@ class Backtest_mama_fama_cross(Backtest):
         self.ls_indicators.append(indicator11)
 
 
-        self.dataset = Dataset_Binance_Futures_1h_100_candles(exchange=self.exchange, \
+        # self.dataset = Dataset_Binance_Futures_1h_100_candles(exchange=self.exchange, \
+        #                                                               live=False, \
+        #                                                               interval=self.interval, \
+        #                                                               warmup_candles=self.get_warmup_candles(), \
+        #                                                               instrument = self.instrument)
+        self.dataset = Dataset_Binance_Spot_100_candles(exchange=self.exchange, \
                                                                       live=False, \
                                                                       interval=self.interval, \
                                                                       warmup_candles=self.get_warmup_candles(), \
@@ -156,7 +161,7 @@ def main():
 
 
             #run backtest with first config
-
+            print('Backtest with first config')
             my_backtest1.initialise()
             my_backtest1.run()
             my_backtest1.report()
@@ -179,7 +184,7 @@ def main():
 
 
             # run backtest with second config
-
+            print('Backtest with second config')
             my_backtest2.initialise()
             my_backtest2.run()
             my_backtest2.report()
@@ -200,7 +205,7 @@ def main():
                             done = True
 
             # run backtest with THIRD config
-
+            print('Backtest with third config')
             my_backtest3.initialise()
             my_backtest3.run()
             my_backtest3.report()

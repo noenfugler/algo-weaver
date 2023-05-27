@@ -9,6 +9,7 @@
 #    <https://www.gnu.org/licenses/>.
 class Dataset():
     def __init__(self, **kwargs):
+        print('Creating Dataset object')
         # for key, value in kwargs.items():
         #     val = value
         #     if isinstance(val, dict):

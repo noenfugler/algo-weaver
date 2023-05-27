@@ -13,6 +13,7 @@ from datetime import datetime
 from time import sleep
 import pandas as pd
 from binance.client import Client as Spot_Client
+import Exchange_Binance_Spot_Secrets
 # from binance import Client as Spot_Client
 
 class Exchange_Binance_Spot(Exchange):
@@ -21,8 +22,8 @@ class Exchange_Binance_Spot(Exchange):
         self.min_leverage = 1
         self.max_leverage = 1
         self.default_leverage = 1
-        self.secret_key = "oWkSBZ6dJtHOkOOAnfJMoLEqAVMDyisQybB61VB1ymExBGuGiioxqHlPkCc4UBxA"
-        self.api_key = "7qHLKE8eEsHEqGwnRN0QZ2CTGtWRu16yF9SYKoAHcEUU1aQBGTlTi0NCSwFRlrMx"
+        self.secret_key = Exchange_Binance_Spot_Secrets.secret_key
+        self.api_key = Exchange_Binance_Spot_Secrets.api_key
         self.taker_fee = 0.0004
         self.maker_fee = 0.0001
         self.live = False

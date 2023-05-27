@@ -12,14 +12,14 @@ from indicators.Indicator_class import Indicator
 from math import pi, cos, sin, atan
 from math import isinf
 
-class Indicator_Trend_AJ(Indicator):
+class Indicator_Trend_AW(Indicator):
     def __init__(self):
         self.min_warmup_candles = 50
 
     def initialise(self, kwargs):
         self.create(kwargs)
 
-    def create(self, data, source='price', period1='cci_period_aj', period2='period', destination='trend_aj', short_period_cycle_fraction=0.1):
+    def create(self, data, source='price', period1='cci_period_aw', period2='period', destination='trend_aw', short_period_cycle_fraction=0.1):
         # Correlate of one full cycle period
         # self.set_up_super_smoother_parameters(ss_period=5)
         length = 50

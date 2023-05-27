@@ -21,6 +21,7 @@ class Indicator_CCI(Indicator):
 
     def create(self, data, source='close', period=20, trend_angle=9, min_period=30, trigger_angle_trend = 0):
         # Correlate of one full cycle period
+        print('Creating CCI Indicator')
         self.set_up_super_smoother_parameters(ss_period=5)
         length =period
         data['cci_real'] = 0.0
@@ -31,7 +32,7 @@ class Indicator_CCI(Indicator):
         data['cci_amp'] = 0.0
         data['cci_correlator'] = 1.0
         data['cci_period'] = 6.0
-        data['cc_period_aw'] = 60.0
+        data['cci_period_aw'] = 60.0
         data['cci_mode_aw_intermediate'] = 0.0
         data['cci_mode_aw'] = 0.0
         for row_num in range(length, len(data)):
@@ -97,8 +98,8 @@ class Indicator_CCI(Indicator):
             data.at[row_num,'cci_angle_roc']=data.loc[row_num,'cci_angle']-data.loc[row_num-1,'cci_angle']
             if data.loc[row_num,'cci_angle_roc'] < -pi :
                 data.at[row_num, 'cci_angle_roc'] = data.loc[row_num, 'cci_angle_roc']+ 2*pi
-            data.at[row_num,'cc_period_aw']=2*pi/data.loc[row_num, 'cci_angle_roc']
-            if isinf(data.at[row_num,'cc_period_aw']) or data.at[row_num,'cc_period_aw']> 40:
+            data.at[row_num,'cci_period_aw']=2*pi/data.loc[row_num, 'cci_angle_roc']
+            if isinf(data.at[row_num,'cci_period_aw']) or data.at[row_num,'cci_period_aw']> 40:
                 #trend mode
                 if data.at[row_num,'cci_imag'] > data.at[row_num,'cci_real']:
                     data.at[row_num, 'cci_mode_aw_intermediate']=-1
